@@ -1,0 +1,14 @@
+ERROR ERROR: insert or update on table "account" violates foreign key constraint "account_owner_2_username_fkey"
+  Detail: Key (owner_2_username)=(back) is not present in table "client". Mon Apr 11 15:13:28 MDT 2022
+ERROR ERROR: duplicate key value violates unique constraint "client_email_key"
+  Detail: Key (email)=(2) already exists. Mon Apr 11 16:28:28 MDT 2022
+ERROR ERROR: duplicate key value violates unique constraint "client_email_key"
+  Detail: Key (email)=(2) already exists. Mon Apr 11 16:30:41 MDT 2022
+ERROR ERROR: duplicate key value violates unique constraint "client_email_key"
+  Detail: Key (email)=(2) already exists. Mon Apr 11 16:32:46 MDT 2022
+ERROR ERROR: duplicate key value violates unique constraint "client_email_key"
+  Detail: Key (email)=(2) already exists. Mon Apr 11 16:38:09 MDT 2022
+ERROR ERROR: duplicate key value violates unique constraint "client_email_key"
+  Detail: Key (email)=(2) already exists. Mon Apr 11 16:42:43 MDT 2022
+ERROR ERROR: duplicate key value violates unique constraint "client_email_key"
+  Detail: Key (email)=(1) already exists. Mon Apr 11 16:45:32 MDT 2022
