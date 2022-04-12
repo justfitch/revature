@@ -40,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction transferIn(int account, double amount, double newBalance) {
-        Transaction transaction = new Transaction(0, account, System.currentTimeMillis(), "Incoming Transfer", -amount, newBalance);
+        Transaction transaction = new Transaction(0, account, System.currentTimeMillis(), "Incoming Transfer", amount, newBalance);
         return transactionDAO.newTransaction(transaction);
     }
 }

@@ -10,8 +10,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import java.util.Date;
-
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)// to run tests in order
 
 public class TransactionDaoTests {

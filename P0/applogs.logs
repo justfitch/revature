@@ -12,3 +12,25 @@ ERROR ERROR: duplicate key value violates unique constraint "client_email_key"
   Detail: Key (email)=(2) already exists. Mon Apr 11 16:42:43 MDT 2022
 ERROR ERROR: duplicate key value violates unique constraint "client_email_key"
   Detail: Key (email)=(1) already exists. Mon Apr 11 16:45:32 MDT 2022
+ERROR ERROR: insert or update on table "account" violates foreign key constraint "account_owner_1_username_fkey"
+  Detail: Key (owner_1_username)=(User1) is not present in table "client". Tue Apr 12 14:59:12 MDT 2022
+ERROR ERROR: insert or update on table "account" violates foreign key constraint "account_owner_1_username_fkey"
+  Detail: Key (owner_1_username)=(User2) is not present in table "client". Tue Apr 12 14:59:12 MDT 2022
+ERROR ERROR: duplicate key value violates unique constraint "client_pkey"
+  Detail: Key (username)=(User) already exists. Tue Apr 12 15:34:14 MDT 2022
+ERROR ERROR: insert or update on table "transactionlog" violates foreign key constraint "transactionlog_account_number_fkey"
+  Detail: Key (account_number)=(0) is not present in table "account". Tue Apr 12 15:40:36 MDT 2022
+ERROR ERROR: insert or update on table "transactionlog" violates foreign key constraint "transactionlog_account_number_fkey"
+  Detail: Key (account_number)=(0) is not present in table "account". Tue Apr 12 15:40:37 MDT 2022
+ERROR ERROR: insert or update on table "transactionlog" violates foreign key constraint "transactionlog_account_number_fkey"
+  Detail: Key (account_number)=(0) is not present in table "account". Tue Apr 12 15:42:55 MDT 2022
+ERROR ERROR: insert or update on table "transactionlog" violates foreign key constraint "transactionlog_account_number_fkey"
+  Detail: Key (account_number)=(0) is not present in table "account". Tue Apr 12 15:42:56 MDT 2022
+ERROR ERROR: insert or update on table "transactionlog" violates foreign key constraint "transactionlog_account_number_fkey"
+  Detail: Key (account_number)=(0) is not present in table "account". Tue Apr 12 15:43:43 MDT 2022
+ERROR ERROR: insert or update on table "transactionlog" violates foreign key constraint "transactionlog_account_number_fkey"
+  Detail: Key (account_number)=(0) is not present in table "account". Tue Apr 12 15:43:44 MDT 2022
+ERROR ERROR: insert or update on table "transactionlog" violates foreign key constraint "transactionlog_account_number_fkey"
+  Detail: Key (account_number)=(0) is not present in table "account". Tue Apr 12 15:46:25 MDT 2022
+ERROR ERROR: insert or update on table "transactionlog" violates foreign key constraint "transactionlog_account_number_fkey"
+  Detail: Key (account_number)=(0) is not present in table "account". Tue Apr 12 15:46:26 MDT 2022

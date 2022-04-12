@@ -89,33 +89,33 @@ public class Transaction {
     @Override
     public String toString() {
         if (transactionType.equals("Withdrawal")) {
-            return "Transaction ID: " + transactionNumber +
+            return "--------Transaction ID: " + transactionNumber + "--------" +
                     "\nDate: " +  new Date(date).toString() +
                     "\nTransaction Type: " + transactionType +
                     "\nAmount Withdrawn: " + df.format(abs(amount)) +
                     "\nNew Balance: " + df.format(newBalance) +
-                    "\n\n";
+                    "\n";
         }else if (transactionType.equals("Deposit")){
-            return "Transaction ID: " + transactionNumber +
+            return "--------Transaction ID: " + transactionNumber + "--------" +
                     "\nDate: " + new Date(date).toString() +
                     "\nTransaction Type: " + transactionType +
                     "\nAmount Deposited: " + df.format(abs(amount)) +
                     "\nNew Balance: " + df.format(newBalance) +
-                    "\n\n";
+                    "\n";
         } else if (transactionType.equals("Outgoing Transfer")){
-            return "Transaction ID: " + transactionNumber +
+            return "--------Transaction ID: " + transactionNumber + "--------" +
                     "\nDate: " + new Date(date).toString() +
                     "\nTransaction Type: " + transactionType +
                     "\nAmount Sent: " + df.format(abs(amount)) +
                     "\nNew Balance: " + df.format(newBalance) +
-                    "\n\n";
+                    "\n";
         }else{
-            return "Transaction ID: " + transactionNumber +
+            return "--------Transaction ID: " + transactionNumber + "--------" +
                     "\nDate: " + new Date(date).toString() +
                     "\nTransaction Type: " + transactionType +
                     "\nAmount Received: " + df.format(abs(amount)) +
                     "\nNew Balance: " + df.format(newBalance) +
-                    "\n\n";
+                    "\n";
         }
     }
 }

@@ -24,7 +24,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         String username = null;
         int accountNumber = 0;
-        int choice = 0;
+        int choice;
 
         //SELECT USER
         while (username == null) {
@@ -35,14 +35,17 @@ public class App {
             choice = scanner.nextInt();
 
             switch (choice) {
-                case 1: {       //Login as existing user
+                case 1: {       //LOGIN AS EXISTING USER
                     username = logIn();
                     break;
                 }
 
-                case 2: {       //Register new user
+                case 2: {       //REGISTER NEW USER
                     username = registerClient();
                     break;
+                }
+                default: {
+                    System.out.println("Invalid Input");
                 }
             }
         }
@@ -67,8 +70,8 @@ public class App {
         }
 
         //TRANSACTIONS ON SELECTED USER/ACCOUNT
-        Boolean isExit = false;   //IS SET TO TRUE WHEN USER CHOOSES TO QUIT (NO MORE TRANSACTIONS)
-        while (isExit == false) {  //LOOP TO DETERMINE WHEN TO END PROGRAM
+        boolean isExit = false;   //IS SET TO TRUE WHEN USER CHOOSES TO QUIT (NO MORE TRANSACTIONS)
+        while (!isExit) {  //LOOP TO DETERMINE WHEN TO END PROGRAM
             System.out.println("\n----------Account " + accountNumber + "----------\nPlease select from the following:");
             System.out.println("1. Make a withdrawal\n2. Make a deposit\n3. View account balance" +
                     "\n4. View transaction history\n5. Transfer funds\n6. Edit existing user/account information" +
@@ -139,7 +142,7 @@ public class App {
         String username = null;
         boolean isValid = false;
         //scanner.nextLine();
-        while (isValid == false) {   //LOOP TO REPEAT INPUT UNTIL VALID USERNAME/PASSWORD ARE ENTERED
+        while (!isValid) {   //LOOP TO REPEAT INPUT UNTIL VALID USERNAME/PASSWORD ARE ENTERED
             System.out.println("Please enter username: ");
             username = scanner.nextLine();
 
@@ -155,8 +158,8 @@ public class App {
                 String password = scanner.nextLine();
 
                 boolean isExit = false;
-                while (isExit == false) {     //LOOP TO INPUT PASSWORD AGAIN IF ATTEMPT IS INVALID
-                    if (App.clientService.checkPassword(username, password) == true) {  //CHECK PASSWORD TO USERNAME
+                while (!isExit) {     //LOOP TO INPUT PASSWORD AGAIN IF ATTEMPT IS INVALID
+                    if (App.clientService.checkPassword(username, password)) {  //CHECK PASSWORD TO USERNAME
                         System.out.println("Login successful!\n");        //LOG IN USER IF PASSWORD IS CORRECT
                         isExit = true;
                     } else {                                           //PASSWORD IS INCORRECT- LOOP BACK TO TRY AGAIN
@@ -183,7 +186,6 @@ public class App {
         System.out.println("Input Username:");
         username = scanner.nextLine();
 
-        int nameTaken;
         do {    //RUN THIS LOOP UNTIL AN ACCEPTABLE (NOT ALREADY USED) USERNAME IS SELECTED
             if (App.clientService.checkUsername(username)) {   //IF USERNAME ALREADY EXISTS, PROMPT FOR DIFFERENT USERNAME
                 System.out.println("That username is already taken. Please try a different username:");
@@ -230,14 +232,15 @@ public class App {
         List<Account> accounts = accountService.findAccounts(username);  //GET ACCOUNTS ASSOCIATED WITH USER FROM DB
         int numberOfAccounts = accounts.size();
         if (numberOfAccounts == 1) {    //IF THEY ONLY HAVE ONE ACCOUNT, AUTO-SELECT THAT ACCOUNT
-            System.out.println("Accessing account # " + accounts.get(0) + "\n");
+            System.out.println("\nYou have one open account.");
+            System.out.println("Accessing account # " + accounts.get(0).getAccountNumber() + "\n");
             accountNumber = accounts.get(0).getAccountNumber();
         } else if (numberOfAccounts == 0) {   //IF THEY HAVE NO ACCOUNT, TELL THEM AND THEN SEND TO ACCOUNT CREATION
             System.out.println("No account registered for this user. Please register an account.\n");
             accountNumber = registerNewAccount(username);
         } else if (numberOfAccounts > 1) {  //IF USER HAS MULTIPLE ACCOUNTS, LIST  AND LET THEM SELECT WHICH TO ACCESS
             boolean isAccountSelected = false;
-            while (isAccountSelected == false) {  //LOOP TO VALIDATE ACCOUNT SELECTION
+            while (!isAccountSelected) {  //LOOP TO VALIDATE ACCOUNT SELECTION
                 System.out.println("***Please select an account***");
                 for (int i = 0; i < numberOfAccounts; i++) {   //LIST ACCOUNTS ASSOCIATED WITH USERNAME
                     System.out.println((i + 1) + ". " + accounts.get(i).getAccountType().substring(0, 1).toUpperCase() + accounts.get(i).getAccountType().substring(1) + " Account No. " + accounts.get(i).getAccountNumber());
@@ -266,7 +269,7 @@ public class App {
         String accountType = null;
         String secondUser = null;
         boolean isValid = false;
-        while (isValid == false) {   //VALIDATE USER ENTRY IS 1 OR 2
+        while (!isValid) {   //VALIDATE USER ENTRY IS 1 OR 2
             System.out.println("What type of account would you like to create?");
             System.out.println("1. Savings\n2. Checking");
             choice = scanner.nextInt();
@@ -283,16 +286,16 @@ public class App {
         }
 
         boolean isExit = false;
-        while (isExit == false) { //LOOP BACK TO HERE IF USER SELECTS 1, BUT DOESN'T KNOW SECOND USERNAME
+        while (!isExit) { //LOOP BACK TO HERE IF USER SELECTS 1, BUT DOESN'T KNOW SECOND USERNAME
             System.out.println("Would you like to add a second registered user to this account?\n1. Yes\n2. No");
             choice = scanner.nextInt();
 
             isValid = false;
-            while (isValid == false) {  //VALIDATE USER INPUT - IS SECOND USER A REGISTERED CLIENT?
+            while (!isValid) {  //VALIDATE USER INPUT - IS SECOND USER A REGISTERED CLIENT?
                 if (choice == 1) {
                     boolean validUser = false;
                     scanner.nextLine();
-                    while (validUser == false) {
+                    while (!validUser) {
                         System.out.println("Please enter registered username: ");
                         secondUser = scanner.nextLine();
 
@@ -374,7 +377,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         boolean youSure = false;
         int toAccount = 0;
-        while (youSure == false) {  //LOOP TO GIVE USER SECOND CHANCE TO VERIFY ACCOUNT TO WHICH THEY WANT TO TRANSFER
+        while (!youSure) {  //LOOP TO GIVE USER SECOND CHANCE TO VERIFY ACCOUNT TO WHICH THEY WANT TO TRANSFER
             System.out.println("Please Enter an account number to which you would like to transfer funds.");
             toAccount = scanner.nextInt();
             Account account = accountService.verifyAccount(toAccount);  //VERIFY THAT ACCOUNT NUMBER EXISTS
@@ -407,12 +410,13 @@ public class App {
         System.out.println("Please enter amount to transfer: $");
         double amount = scanner.nextDouble();
 
-        double currentBalance = App.accountService.checkBalance(accountNumber); //VERIFY SUFFIICENT FUNDS TO TRANSFER OUT
+        double currentBalance = App.accountService.checkBalance(accountNumber); //VERIFY SUFFICIENT FUNDS TO TRANSFER OUT
+        double toBalance = App.accountService.checkBalance(toAccount);
         if (currentBalance >= amount) {
             //CREATE TRANSACTION RECORD FOR CURRENT ACCOUNT IN TRANSACTION TABLE
             App.transactionService.transferOut(accountNumber, amount, (currentBalance - amount));
             //CREATE TRANSACTION RECORD FOR ACCOUNT TO WHICH TRANSFER IS GOING IN TRANSACTION TABLE
-            App.transactionService.transferIn(toAccount, amount, (currentBalance + amount));
+            App.transactionService.transferIn(toAccount, amount, (toBalance + amount));
             System.out.println("Success! Transferred " + df.format(amount) + " from account " + accountNumber + " to account " + toAccount + ".");
             //UPDATE BALANCE OF CURRENT ACCOUNT IN ACCOUNT TABLE
             System.out.println("New balance: " + df.format(App.accountService.updateBalance(accountNumber, -amount)));
@@ -429,7 +433,7 @@ public class App {
         int choice;
         Client client = clientService.getClientInfo(username); //CREATE CLIENT OBJECT, SET TO CURRENT USER INFO
         boolean isFinished = false;
-        while (isFinished == false) {  //LOOP TO ALLOW USER TO CHANGE AS MANY FIELDS AS DESIRED
+        while (!isFinished) {  //LOOP TO ALLOW USER TO CHANGE AS MANY FIELDS AS DESIRED
             System.out.println("Select an item to update:");
             System.out.println("1. First Name\n2. Last Name\n3. Password\n4. Mailing Address\n5. Email Address");
             choice = scanner.nextInt();
@@ -443,7 +447,7 @@ public class App {
                 }
                 case 2: {   //UPDATE LAST NAME IN LOCAL OBJECT
                     System.out.println("Please enter new last name: ");
-                    String lastName = null;
+                    String lastName;
                     scanner.nextLine();
                     lastName = scanner.nextLine();
                     client.setLastName(lastName);
@@ -452,14 +456,14 @@ public class App {
                 case 3: {   //UPDATE PASSWORD IN LOCAL OBJECT
                     boolean isValid = false;
                     scanner.nextLine();
-                    while (isValid == false) {  //LOOP TO ALLOW TRY AGAIN ON EXISTING PASSWORD
+                    while (!isValid) {  //LOOP TO ALLOW TRY AGAIN ON EXISTING PASSWORD
                         System.out.println("Please enter current password: ");
-                        String curPassword = null;
+                        String curPassword;
                         curPassword = scanner.nextLine();
                         //CHECK CURRENT PASSWORD AGAINST USER IN DATABASE
                         if (clientService.checkPassword(username, curPassword)) {
                             System.out.println("Please enter new password: ");
-                            String password = null;
+                            String password;
                             password = scanner.nextLine();
                             client.setPassword(password);
                             isValid = true;
@@ -471,7 +475,7 @@ public class App {
                 }
                 case 4: {   //UPDATE MAILING ADDRESS IN LOCAL OBJECT
                     System.out.println("Please enter new mailing address: ");
-                    String address = null;
+                    String address;
                     scanner.nextLine();
                     address = scanner.nextLine();
                     client.setAddress(address);
@@ -479,7 +483,7 @@ public class App {
                 }
                 case 5: {   //UPDATE EMAIL ADDRESS IN LOCAL OBJECT
                     System.out.println("Please enter new email address: ");
-                    String email = null;
+                    String email;
                     scanner.nextLine();
                     email = scanner.nextLine();
                     client.setEmail(email);
@@ -487,7 +491,7 @@ public class App {
                 }
             }
             boolean isValid = false;
-            while (isValid == false) {  //INPUT VALIDATION LOOP
+            while (!isValid) {  //INPUT VALIDATION LOOP
                 System.out.println("Would you like to update any other information?\n1. Yes\n2. No");
                 choice = scanner.nextInt();
                 if (choice == 1) {
@@ -495,7 +499,7 @@ public class App {
                 } else if (choice == 2) {
                     isValid = true;
                     isFinished = true;
-                } else if (choice != 1) {
+                } else {
                     System.out.println("Invalid input. Please try again");
                 }
             }
@@ -515,7 +519,7 @@ public class App {
         int choice;
         //CREATE LOCAL ACCOUNT OBJECT FROM CLIENT RECORD
         Account account = accountService.getAccountDetails(accountNumber);
-        //IF ACCOUNT CURRENTLY HAS NO SECOND USER (OWNERTWO IS NOT NULL) - PROMPT TO REMOVE
+        //IF ACCOUNT CURRENTLY HAS NO SECOND USER (OWNER TWO IS NOT NULL) - PROMPT TO REMOVE
         if (account.getOwnerTwo() != null) {
             String ownerTwo = account.getOwnerTwo();
             System.out.println("User " + ownerTwo + " is listed as a second user on this account." +
@@ -531,9 +535,9 @@ public class App {
                 //ADD NEW SECOND USER
                 if (choice == 1) {
                     boolean isValid = false;
-                    while (isValid == false) {  //VALIDATION LOOP
+                    while (!isValid) {  //VALIDATION LOOP
                         System.out.println("Please enter new second user: ");
-                        String newUser2 = null;
+                        String newUser2;
                         scanner.nextLine();
                         newUser2 = scanner.nextLine();
                         if (clientService.checkUsername(newUser2)) { //VERIFY SECOND USER EXISTS
@@ -550,7 +554,7 @@ public class App {
         //IF ACCOUNT HAS NO SECOND USER - PROMPT TO ADD ONE
         } else {
             boolean isValid = false;
-            while (isValid == false) {
+            while (!isValid) {
                 System.out.println("Please enter new second user: ");
                 String newUser2 = scanner.nextLine();
                 if (clientService.checkUsername(newUser2)) {    //VERIFY USERNAME EXISTS
@@ -568,16 +572,14 @@ public class App {
     //ASK CLIENT IF THEY WOULD LIKE TO MAKE ANOTHER TRANSACTION
     private static boolean isExit(){
         Scanner scanner = new Scanner(System.in);
-        int choice = 0;
+        int choice;
         boolean isValid = false; //VALIDATE USER INPUT (1 OR 2)
-        while (isValid == false){
+        while (!isValid){
             System.out.println("\nWould you like to make another transaction?\n1. Yes\n2. No");
             choice = scanner.nextInt();
             if (choice == 1) {
-                isValid = true;
                 return false;
             }else if (choice == 2){  //EXIT PROGRAM
-                isValid = true;
                 System.out.println("Thank you for being a valued customer! Have a wonderful day!");
                 return true;
             }else{
